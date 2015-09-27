@@ -238,21 +238,20 @@ By default, the following arguments are sent to julia:
 
 (defun julia-shell-get-completion-list (str)
   "Get a list of completions from julis, STR is the substring to complete."
-  (save-excursion
     (let* ((julia-shell-buffer (julia-shell-buffer-or-complain))
            (completion-command (concat "EmacsTools.get_completions(\"" str "\")"))
            (output nil)
            (completions nil)
            (bad-string-regexp "^\\\\$")) ;; a single backslash breaks things
-      (set-buffer julia-shell-buffer)
-      ;; get the completions from julia
-      (unless (string-match bad-string-regexp str)
-        (setq output (julia-shell-collect-command-output completion-command))
-        ;; build a completion list, a list of lists
-        (dolist (item (split-string output "\n"))
-          (push (list item) completions))
-        ;; the last command is always a newline
-        (nreverse (cdr completions))))))
+      (with-current-buffer julia-shell-buffer
+        ;; get the completions from julia
+        (unless (string-match bad-string-regexp str)
+          (setq output (julia-shell-collect-command-output completion-command))
+          ;; build a completion list, a list of lists
+          (dolist (item (split-string output "\n"))
+            (push (list item) completions))
+          ;; the last command is always a newline
+          (nreverse (cdr completions))))))
 
 (defvar julia-shell-window-exists-for-display-completion-flag nil
   "Non-nil means there was an 'other-window' available when `display-completion-list' is called.")
