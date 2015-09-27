@@ -30,7 +30,29 @@ just like in the native Julia REPL.
 
 When not substituting LaTeX letters, `julia-shell` will open a buffer with
 suggestions on how to complete the current command using Emacs' completion
-system. Simply press `TAB` to get a list of suggestions.
+system. Simply press `TAB` to get a list of suggestions. For example, pressing
+`TAB` after
+
+```julia
+julia> his
+```
+
+First completes to
+```julia
+julia>hist
+```
+
+And pressing `TAB` again opens up a new `*Completions*` buffer with the
+following suggestions:
+
+```
+Click on a completion to select it.
+In this buffer, type RET to select the completion near point.
+
+Possible completions are:
+hist 	hist2D
+hist2d 	histrange
+```
 
 ### Shell interaction from `julia-mode`
 
@@ -73,4 +95,4 @@ for laying the foundation of this, especially the neat LaTeX substitutions.
 
 ## License
 
-[GPL v2](http://www.gnu.org/old-licenses/gpl-2.0.txt)
+[GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
