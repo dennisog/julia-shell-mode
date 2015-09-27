@@ -42,7 +42,7 @@ First completes to
 julia> hist
 ```
 
-and pressing `TAB` again opens up a new `*Completions*` buffer with the
+And pressing `TAB` again opens up a new `*Completions*` buffer with the
 following suggestions:
 
 ```
