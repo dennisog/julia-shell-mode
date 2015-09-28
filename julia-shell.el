@@ -1,6 +1,7 @@
 ;;; julia-shell.el --- Major mode for an inferior Julia shell
 ;;
 ;; Author: Dennis Ogbe <dogbe@purdue.edu>
+;; Package-Requires: ((julia-mode "0.3"))
 ;; Based on the inferior-julia part of `julia-mode.el' and functionality of
 ;; `matlab.el'
 ;;
