@@ -92,6 +92,9 @@ By default, the following arguments are sent to julia:
     map)
   "Basic mode map for `inferior-julia-shell-mode'.")
 
+(defvar julia-shell-latex-sub-table nil
+  "Hashtable holding LaTeX substitions.")
+
 (defvar julia-title-ascii
 "               _
    _       _ _(_)_
@@ -253,6 +256,21 @@ By default, the following arguments are sent to julia:
           ;; the last command is always a newline
           (nreverse (cdr completions))))))
 
+(defun julia-shell-get-latex-symbol-table ()
+  "Return a hashtable of LaTeX symbols and their unicode counterparts."
+  (let ((latexsub-table (make-hash-table :test 'equal))
+        (julia-shell-buffer (julia-shell-buffer-or-complain))
+        (symbol-command "EmacsTools.get_latex_symbols()")
+        (output nil))
+    (with-current-buffer julia-shell-buffer
+      (setq output (julia-shell-collect-command-output symbol-command))
+      (dolist (line (split-string output "\n"))
+        (let ((table-entry nil))
+          (setq table-entry (split-string line))
+          (when (= (length table-entry) 2)
+            (apply 'puthash (append table-entry (list latexsub-table))))))
+      latexsub-table)))
+
 (defvar julia-shell-window-exists-for-display-completion-flag nil
   "Non-nil means there was an 'other-window' available when `display-completion-list' is called.")
 
@@ -361,14 +379,14 @@ If the command is a LaTeX symbol, replace it with its unicode character."
          (last-cmd nil)
          (last-cmd-with-prompt nil)
          (inhibit-field-text-motion t)
-        (command
-         (let ((str (buffer-substring-no-properties beg end)))
-           ;; remove blank lines
-           (while (string-match "\n\\s-*\n" str)
-             (setq str (concat (substring str 0 (match-beginning 0))
-                               "\n"
-                               (substring str (match-end 0)))))
-           str)))
+         (command
+          (let ((str (buffer-substring-no-properties beg end)))
+            ;; remove blank lines
+            (while (string-match "\n\\s-*\n" str)
+              (setq str (concat (substring str 0 (match-beginning 0))
+                                "\n"
+                                (substring str (match-end 0)))))
+            str)))
     (with-current-buffer julia-shell-buffer
       (if (not (julia-shell-on-prompt-p))
           (error "Julia shell is busy!")
@@ -413,7 +431,7 @@ If region is not active, send the current line."
                         julia-shell-prompt-regexp "" last-cmd-with-prompt))
         (delete-region (point) (line-end-position))
         (comint-simple-send (get-buffer-process (current-buffer))
-                            (format "evalfile(\"%s\")" filename))
+                            (format "include(\"%s\")" filename))
         (goto-char (point-max))
         (insert last-cmd)
         (goto-char (point-max))))))
