@@ -12,6 +12,14 @@ editing buffer and a live `julia-shell` REPL.
 
 ## Features/Usage
 
+### Julia-shell
+
+To start a `julia-shell`, simply do
+
+```elisp
+M-x run-julia
+```
+
 ### Completions
 
 To query Julia for completions of the current command on the prompt, simply hit
@@ -70,7 +78,9 @@ Put the following code in your `.emacs`, `init.el`, or equivalent:
 (add-to-list 'load-path "path-to-julia-shell-mode")
 (require 'julia-shell)
 ```
-where `"path-to-julia-shell-mode"` should be the location of this archive.
+where `"path-to-julia-shell-mode"` should be the location of this
+archive. Since the alias to `run-julia` overrides `julia-mode`'s command, make
+sure to include these line *after* requiring `julia-mode`.
 
 To interact with `julia-shell` from
 [`julia-mode`](https://github.com/JuliaLang/julia/blob/master/contrib/julia-mode.el),
