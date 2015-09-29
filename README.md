@@ -1,4 +1,5 @@
 # julia-shell-mode
+[![MELPA](http://melpa.org/packages/julia-shell-badge.svg)](http://melpa.org/#/julia-shell)
 ### Emacs major mode for an interactive [Julia](http://julialang.org/) shell
 ![Screenshot](./img/screenshot.png)
 
