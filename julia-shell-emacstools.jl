@@ -36,7 +36,7 @@ module EmacsTools
 export get_completions, get_latex_symbols
 
 # print completions of SUBSTRING
-function get_completions(substring::String)
+function get_completions(substring::AbstractString)
   c = Base.REPLCompletions.completions(substring, length(substring));
   for completion in c[1]
     println(completion);
