@@ -437,7 +437,7 @@ If region is not active, send the current line."
         (insert last-cmd)
         (goto-char (point-max))))))
 
-(provide 'julia-shell-mode)
+(provide 'julia-shell)
 ;; Local Variables:
 ;; coding: utf-8
 ;; byte-compile-warnings: (not obsolete)
