@@ -81,6 +81,11 @@ By default, the following arguments are sent to julia:
   :type 'string
   :group 'julia-shell)
 
+(defcustom julia-shell-animate-logo t
+  "Regexp for matching `inferior-julia' prompt."
+  :type 'boolean
+  :group 'julia-shell)
+
 ;;; Internal variables ========================================================
 
 (defvar inferior-julia-shell-mode-map
@@ -136,11 +141,13 @@ By default, the following arguments are sent to julia:
          (julia-default-args (list "-q" "--color=no" "--load" julia-emacsinit)))
     (pop-to-buffer-same-window julia-shell-buffer-name)
     (when (not (comint-check-proc julia-shell-buffer-name))
-      (animate-string (concat
-                       julia-title-ascii
-                       "\nA fresh approach to technical computing\n\n"
-                       "Version " julia-version "\n")
-                      0 0)
+      (let ((logo-string (concat
+                          julia-title-ascii
+                          "\nA fresh approach to technical computing\n\n"
+                          "Version " julia-version "\n")))
+        (if julia-shell-animate-logo
+            (animate-string logo-string 0 0)
+          (insert logo-string)))
       (apply #'make-comint-in-buffer
              "Julia" julia-shell-buffer-name
              julia-shell-program
