@@ -128,7 +128,7 @@ By default, the following arguments are sent to julia:
   (let* ((julia-shell-program julia-shell-program)
          (buffer (get-buffer-create julia-shell-buffer-name))
          (julia-version
-          (shell-command-to-string "julia --version | awk '{print $3}'"))
+          (shell-command-to-string (concat julia-shell-program " --version | awk '{print $3}'")))
          (julia-emacsinit
           (expand-file-name "julia-shell-emacstools.jl"
                             (file-name-directory (locate-library "julia-shell"))))
