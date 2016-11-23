@@ -243,7 +243,7 @@ By default, the following arguments are sent to julia:
       (delete-blank-lines)
       (beginning-of-line)
       (comint-send-string (get-buffer-process (current-buffer)) "\n")
-      (insert-string last-cmd)
+      (insert last-cmd)
       ;; return the shell output
       str)))
 
